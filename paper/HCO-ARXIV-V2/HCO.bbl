@@ -1,0 +1,262 @@
+\begin{thebibliography}{39}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Maleki(2026{\natexlab{a}})]{maleki2026pocmt}
+Homayoun Maleki.
+\newblock Proof of commitment: Time-per-identity as a non-parallelizable
+  consensus resource.
+\newblock arXiv preprint, 2026{\natexlab{a}}.
+
+\bibitem[Maleki(2026{\natexlab{b}})]{maleki2026geometry}
+Homayoun Maleki.
+\newblock The geometry of adversarial identity cost: Structural limits of
+  {Sybil} resistance in open systems.
+\newblock arXiv preprint, 2026{\natexlab{b}}.
+
+\bibitem[Douceur(2002)]{douceur2002sybil}
+John~R. Douceur.
+\newblock The {Sybil} attack.
+\newblock In \emph{International Workshop on Peer-to-Peer Systems ({IPTPS})},
+  pages 251--260, 2002.
+
+\bibitem[von Ahn et~al.(2003)von Ahn, Blum, Hopper, and
+  Langford]{vonahn2003captcha}
+Luis von Ahn, Manuel Blum, Nicholas~J. Hopper, and John Langford.
+\newblock {CAPTCHA}: Using hard {AI} problems for security.
+\newblock In \emph{Advances in Cryptology -- {EUROCRYPT}}, pages 294--311,
+  2003.
+
+\bibitem[Sivakorn et~al.(2016)Sivakorn, Polakis, and
+  Keromytis]{sivakorn2016iam}
+Suphannee Sivakorn, Iasonas Polakis, and Angelos~D. Keromytis.
+\newblock I am robot: (deep) learning to break semantic image {CAPTCHAs}.
+\newblock In \emph{{IEEE} European Symposium on Security and Privacy
+  ({EuroS\&P})}, pages 388--403, 2016.
+
+\bibitem[Ye et~al.(2018)Ye, Tang, Fang, Zhu, Feng, Xu, Chen, and
+  Wang]{ye2018yet}
+Guixin Ye, Zhanyong Tang, Dingyi Fang, Zhanxing Zhu, Yansong Feng, Pengfei Xu,
+  Xiaojiang Chen, and Zheng Wang.
+\newblock Yet another text {CAPTCHA} solver: A generative adversarial network
+  based approach.
+\newblock In \emph{{ACM} {SIGSAC} Conference on Computer and Communications
+  Security ({CCS})}, pages 332--348, 2018.
+
+\bibitem[Goodfellow et~al.(2014)Goodfellow, Bulatov, Ibarz, Arnoud, and
+  Shet]{goodfellow2014multidigit}
+Ian~J. Goodfellow, Yaroslav Bulatov, Julian Ibarz, Sacha Arnoud, and Vinay
+  Shet.
+\newblock Multi-digit number recognition from street view imagery using deep
+  convolutional neural networks.
+\newblock In \emph{International Conference on Learning Representations
+  ({ICLR})}, 2014.
+
+\bibitem[Motoyama et~al.(2010)Motoyama, Levchenko, Kanich, McCoy, Voelker, and
+  Savage]{motoyama2010recaptchas}
+Marti Motoyama, Kirill Levchenko, Chris Kanich, Damon McCoy, Geoffrey~M.
+  Voelker, and Stefan Savage.
+\newblock Re: {CAPTCHAs}---understanding {CAPTCHA}-solving services in an
+  economic context.
+\newblock In \emph{{USENIX} Security Symposium}, pages 435--452, 2010.
+
+\bibitem[Bursztein et~al.(2011)Bursztein, Martin, and
+  Mitchell]{bursztein2011text}
+Elie Bursztein, Matthieu Martin, and John~C. Mitchell.
+\newblock Text-based {CAPTCHA} strengths and weaknesses.
+\newblock In \emph{{ACM} Conference on Computer and Communications Security
+  ({CCS})}, pages 125--138, 2011.
+
+\bibitem[Borge et~al.(2017)Borge, Kokoris-Kogias, Jovanovic, Gasser, Gailly,
+  and Ford]{borge2017proofofpersonhood}
+Maria Borge, Eleftherios Kokoris-Kogias, Philipp Jovanovic, Linus Gasser,
+  Nicolas Gailly, and Bryan Ford.
+\newblock Proof-of-personhood: Redemocratizing permissionless cryptocurrencies.
+\newblock In \emph{{IEEE} European Symposium on Security and Privacy Workshops
+  ({EuroS\&PW})}, pages 23--28, 2017.
+
+\bibitem[Ford(2020)]{ford2020pseudonym}
+Bryan Ford.
+\newblock Pseudonym parties: An offline foundation for online accountability.
+\newblock In \emph{{IEEE} Security \& Privacy Workshops}, 2020.
+
+\bibitem[{Worldcoin Foundation}(2023)]{worldcoin2023}
+{Worldcoin Foundation}.
+\newblock {Worldcoin}: Proof of personhood at scale.
+\newblock \url{https://worldcoin.org}, 2023.
+
+\bibitem[{BrightID}(2022)]{brightid2022}
+{BrightID}.
+\newblock {BrightID}: Decentralized identity.
+\newblock \url{https://www.brightid.org}, 2022.
+
+\bibitem[{Gitcoin}(2023)]{gitcoin2023}
+{Gitcoin}.
+\newblock {Gitcoin Passport}.
+\newblock \url{https://passport.gitcoin.co}, 2023.
+
+\bibitem[Yu et~al.(2006)Yu, Gibbons, Kaminsky, and Xiao]{yu2006sybilguard}
+Haifeng Yu, Phillip~B. Gibbons, Michael Kaminsky, and Feng Xiao.
+\newblock {SybilGuard}: Defending against {Sybil} attacks via social networks.
+\newblock In \emph{{ACM} {SIGCOMM}}, pages 267--278, 2006.
+
+\bibitem[Yu et~al.(2008)Yu, Kaminsky, Gibbons, and Flaxman]{yu2008sybillimit}
+Haifeng Yu, Michael Kaminsky, Phillip~B. Gibbons, and Abraham~D. Flaxman.
+\newblock {SybilLimit}: A near-optimal social network defense against {Sybil}
+  attacks.
+\newblock In \emph{{IEEE} Symposium on Security and Privacy ({S\&P})}, pages
+  3--17, 2008.
+
+\bibitem[Danezis and Mittal(2009)]{danezis2009sybilinfer}
+George Danezis and Prateek Mittal.
+\newblock {SybilInfer}: Detecting {Sybil} nodes using social networks.
+\newblock In \emph{Network and Distributed System Security Symposium ({NDSS})},
+  2009.
+
+\bibitem[Wang et~al.(2013)Wang, Konolige, Wilson, Wang, Zheng, and
+  Zhao]{wang2013clickstream}
+Gang Wang, Tristan Konolige, Christo Wilson, Xiao Wang, Haitao Zheng, and
+  Ben~Y. Zhao.
+\newblock You are how you click: Clickstream analysis for {Sybil} detection.
+\newblock In \emph{{USENIX} Security Symposium}, pages 241--256, 2013.
+
+\bibitem[Frank et~al.(2013)Frank, Biedert, Ma, Martinovic, and
+  Song]{frank2013touchalytics}
+Mario Frank, Ralf Biedert, Eugene Ma, Ivan Martinovic, and Dawn Song.
+\newblock Touchalytics: On the applicability of touchscreen input as a
+  behavioral biometric for continuous authentication.
+\newblock \emph{{IEEE} Transactions on Information Forensics and Security},
+  8\penalty0 (1):\penalty0 136--148, 2013.
+
+\bibitem[Serwadda and Phoha(2013)]{serwadda2013kids}
+Abdul Serwadda and Vir~V. Phoha.
+\newblock When kids' games expose grown-up flaws: An analysis of keystroke
+  dynamics classifiers under skilled impersonation attack.
+\newblock In \emph{{ACM} Conference on Computer and Communications Security
+  ({CCS})}, pages 1189--1200, 2013.
+
+\bibitem[{Google}(2019)]{recaptcha2019}
+{Google}.
+\newblock {reCAPTCHA v3}.
+\newblock \url{https://www.google.com/recaptcha}, 2019.
+
+\bibitem[{hCaptcha Team}(2020)]{hcaptcha2020}
+{hCaptcha Team}.
+\newblock {hCaptcha}.
+\newblock \url{https://www.hcaptcha.com}, 2020.
+
+\bibitem[Geirhos et~al.(2018)Geirhos, Temme, Rauber, Sch{\"u}tt, Bethge, and
+  Wichmann]{geirhos2018generalisation}
+Robert Geirhos, Carlos R.~M. Temme, Jonas Rauber, Heiko~H. Sch{\"u}tt, Matthias
+  Bethge, and Felix~A. Wichmann.
+\newblock Generalisation in humans and deep neural networks.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  ({NeurIPS})}, pages 7538--7550, 2018.
+
+\bibitem[Geirhos et~al.(2019)Geirhos, Rubisch, Michaelis, Bethge, Wichmann, and
+  Brendel]{geirhos2019texture}
+Robert Geirhos, Patricia Rubisch, Claudio Michaelis, Matthias Bethge, Felix~A.
+  Wichmann, and Wieland Brendel.
+\newblock {ImageNet}-trained {CNNs} are biased towards texture; increasing
+  shape bias improves accuracy and robustness.
+\newblock In \emph{International Conference on Learning Representations
+  ({ICLR})}, 2019.
+
+\bibitem[Geirhos et~al.(2020)Geirhos, Jacobsen, Michaelis, Zemel, Brendel,
+  Bethge, and Wichmann]{geirhos2020shortcut}
+Robert Geirhos, J{\"o}rn-Henrik Jacobsen, Claudio Michaelis, Richard Zemel,
+  Wieland Brendel, Matthias Bethge, and Felix~A. Wichmann.
+\newblock Shortcut learning in deep neural networks.
+\newblock \emph{Nature Machine Intelligence}, 2:\penalty0 665--673, 2020.
+
+\bibitem[Lake et~al.(2017)Lake, Ullman, Tenenbaum, and
+  Gershman]{lake2017building}
+Brenden~M. Lake, Tomer~D. Ullman, Joshua~B. Tenenbaum, and Samuel~J. Gershman.
+\newblock Building machines that learn and think like people.
+\newblock \emph{Behavioral and Brain Sciences}, 40:\penalty0 e253, 2017.
+
+\bibitem[{OpenAI}(2023)]{openai2023gpt4}
+{OpenAI}.
+\newblock {GPT-4} technical report.
+\newblock arXiv:2303.08774, 2023.
+
+\bibitem[{Gemini Team, Google}(2023)]{geminiteam2023}
+{Gemini Team, Google}.
+\newblock Gemini: A family of highly capable multimodal models.
+\newblock arXiv:2312.11805, 2023.
+
+\bibitem[{Anthropic}(2024)]{anthropic2024claude}
+{Anthropic}.
+\newblock The {Claude} 3 model family: Opus, sonnet, haiku.
+\newblock Model card. \url{https://www.anthropic.com}, 2024.
+
+\bibitem[Radford et~al.(2021)Radford, Kim, Hallacy, Ramesh, Goh, Agarwal,
+  Sastry, Askell, Mishkin, Clark, Krueger, and Sutskever]{radford2021clip}
+Alec Radford, Jong~Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh,
+  Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark,
+  Gretchen Krueger, and Ilya Sutskever.
+\newblock Learning transferable visual models from natural language
+  supervision.
+\newblock In \emph{International Conference on Machine Learning ({ICML})},
+  pages 8748--8763, 2021.
+
+\bibitem[Costan and Devadas(2016)]{costan2016sgx}
+Victor Costan and Srinivas Devadas.
+\newblock Intel {SGX} explained.
+\newblock {IACR} Cryptology ePrint Archive, Report 2016/086, 2016.
+
+\bibitem[Nakamoto(2008)]{nakamoto2008bitcoin}
+Satoshi Nakamoto.
+\newblock Bitcoin: A peer-to-peer electronic cash system.
+\newblock White paper, 2008.
+
+\bibitem[Kiayias et~al.(2017)Kiayias, Russell, David, and
+  Oliynykov]{kiayias2017ouroboros}
+Aggelos Kiayias, Alexander Russell, Bernardo David, and Roman Oliynykov.
+\newblock Ouroboros: A provably secure proof-of-stake blockchain protocol.
+\newblock In \emph{Advances in Cryptology -- {CRYPTO}}, pages 357--388, 2017.
+
+\bibitem[Bonneau et~al.(2015)Bonneau, Miller, Clark, Narayanan, Kroll, and
+  Felten]{bonneau2015sok}
+Joseph Bonneau, Andrew Miller, Jeremy Clark, Arvind Narayanan, Joshua~A. Kroll,
+  and Edward~W. Felten.
+\newblock {SoK}: Research perspectives and challenges for {Bitcoin} and
+  cryptocurrencies.
+\newblock In \emph{{IEEE} Symposium on Security and Privacy ({S\&P})}, 2015.
+
+\bibitem[Bellare and Rogaway(1993)]{bellare1993random}
+Mihir Bellare and Phillip Rogaway.
+\newblock Random oracles are practical: A paradigm for designing efficient
+  protocols.
+\newblock In \emph{{ACM} Conference on Computer and Communications Security
+  ({CCS})}, pages 62--73, 1993.
+
+\bibitem[{NIST}(2015)]{nist2015sha3}
+{NIST}.
+\newblock {SHA-3} standard: Permutation-based hash and extendable-output
+  functions.
+\newblock {FIPS} Publication 202, 2015.
+
+\bibitem[Syta et~al.(2017)Syta, Jovanovic, Kokoris-Kogias, Gailly, Gasser,
+  Khoffi, Fischer, and Ford]{syta2017drand}
+Ewa Syta, Philipp Jovanovic, Eleftherios Kokoris-Kogias, Nicolas Gailly, Linus
+  Gasser, Ismail Khoffi, Michael~J. Fischer, and Bryan Ford.
+\newblock Scalable bias-resistant distributed randomness.
+\newblock In \emph{{IEEE} Symposium on Security and Privacy ({S\&P})}, pages
+  444--460, 2017.
+
+\bibitem[{Prolific Academic Ltd.}(2014)]{prolific2014}
+{Prolific Academic Ltd.}
+\newblock Prolific: Quickly find research participants.
+\newblock \url{https://www.prolific.com}, 2014.
+
+\bibitem[Peer et~al.(2022)Peer, Rothschild, Gordon, Evernden, and
+  Damer]{peer2022data}
+Eyal Peer, David Rothschild, Andrew Gordon, Zak Evernden, and Ekaterina Damer.
+\newblock Data quality of platforms and panels for online behavioral research.
+\newblock \emph{Behavior Research Methods}, 54:\penalty0 1643--1662, 2022.
+
+\end{thebibliography}

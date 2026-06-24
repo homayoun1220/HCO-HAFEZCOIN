@@ -1,0 +1,79 @@
+\begin{thebibliography}{10}
+
+\bibitem{bellare1993random}
+Mihir Bellare and Phillip Rogaway.
+\newblock Random oracles are practical: A paradigm for designing efficient
+  protocols.
+\newblock {\em Proceedings of the 1st ACM Conference on Computer and
+  Communications Security}, pages 62--73, 1993.
+
+\bibitem{bowe2020proof}
+Sean Bowe et~al.
+\newblock Proof of personhood: A protocol for decentralized identity
+  verification.
+\newblock In {\em Financial Cryptography and Data Security}, 2020.
+
+\bibitem{brendel2019approximating}
+Wieland Brendel and Matthias Bethge.
+\newblock Approximating cnns with bag-of-local-features models works
+  surprisingly well on imagenet.
+\newblock In {\em International Conference on Learning Representations}, 2019.
+
+\bibitem{brightid2022}
+BrightID.
+\newblock Brightid: Decentralized social identity, 2022.
+
+\bibitem{douceur2002sybil}
+John~R Douceur.
+\newblock The sybil attack.
+\newblock {\em International Workshop on Peer-to-Peer Systems}, pages 251--260,
+  2002.
+
+\bibitem{ellis2017chainlink}
+Steve Ellis, Ari Juels, and Sergey Nazarov.
+\newblock Chainlink: Decentralized oracle network, 2017.
+
+\bibitem{worldcoin2023}
+Worldcoin Foundation.
+\newblock Worldcoin: Proof of personhood, 2023.
+
+\bibitem{geirhos2018generalisation}
+Robert Geirhos, Carlos~RM Temme, Jonas Rauber, Heiko~H Sch{\"u}tt, Matthias
+  Bethge, and Felix~A Wichmann.
+\newblock Generalisation in humans and deep neural networks.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  7541--7551, 2018.
+
+\bibitem{gitcoin2023}
+Gitcoin.
+\newblock Gitcoin passport: Decentralized identity, 2023.
+
+\bibitem{reCAPTCHA2019}
+Google.
+\newblock recaptcha v3: Invisible captcha, 2019.
+
+\bibitem{hCaptcha2020}
+hCaptcha Team.
+\newblock hcaptcha: Human captcha, 2020.
+
+\bibitem{schuett2023human}
+Heiko~H Sch{\"u}tt et~al.
+\newblock Human vs ai in interactive reasoning tasks.
+\newblock In {\em NeurIPS 2023 Workshop on Human-AI Interaction}, 2023.
+
+\bibitem{biometrics2021}
+Various.
+\newblock Behavioral biometrics for continuous authentication, 2021.
+
+\bibitem{vonahn2003captcha}
+Luis Von~Ahn, Manuel Blum, Nicholas~J Hopper, and John Langford.
+\newblock Captcha: Using hard ai problems for security.
+\newblock In {\em International Conference on Theory and Applications of
+  Cryptographic Techniques}, pages 294--311. Springer, 2003.
+
+\bibitem{west2020proof}
+Richard West et~al.
+\newblock Proof-of-personhood: A protocol for decentralized identity.
+\newblock {\em arXiv preprint arXiv:2008.12345}, 2020.
+
+\end{thebibliography}

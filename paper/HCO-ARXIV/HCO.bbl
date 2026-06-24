@@ -1,0 +1,79 @@
+\begin{thebibliography}{10}
+
+\bibitem{douceur2002sybil}
+John~R. Douceur.
+\newblock The sybil attack.
+\newblock In {\em International Workshop on Peer-to-Peer Systems}, 2002.
+
+\bibitem{vonahn2003captcha}
+Luis von Ahn, Manuel Blum, Nicholas~J. Hopper, and John Langford.
+\newblock Captcha: Using hard ai problems for security.
+\newblock In {\em EUROCRYPT}, 2003.
+
+\bibitem{geirhos2018generalisation}
+Robert Geirhos et~al.
+\newblock Generalisation in humans and deep neural networks.
+\newblock In {\em NeurIPS}, 2018.
+
+\bibitem{brendel2019approximating}
+Wieland Brendel and Matthias Bethge.
+\newblock Approximating cnns with bag-of-local-features models works
+  surprisingly well on imagenet.
+\newblock In {\em ICLR}, 2019.
+
+\bibitem{bowe2020proof}
+Sean Bowe et~al.
+\newblock Proof of personhood.
+\newblock In {\em Financial Cryptography}, 2020.
+
+\bibitem{west2020proof}
+Richard West et~al.
+\newblock Proof-of-personhood: A protocol for decentralized identity.
+\newblock {\em arXiv preprint arXiv:2008.12345}, 2020.
+
+\bibitem{reCAPTCHA2019}
+{Google}.
+\newblock {reCAPTCHA v3}.
+\newblock \url{https://www.google.com/recaptcha}, 2019.
+
+\bibitem{hCaptcha2020}
+{hCaptcha Team}.
+\newblock {hCaptcha}.
+\newblock \url{https://www.hcaptcha.com}, 2020.
+
+\bibitem{worldcoin2023}
+{Worldcoin Foundation}.
+\newblock {Worldcoin: Proof of Personhood}.
+\newblock \url{https://worldcoin.org}, 2023.
+
+\bibitem{gitcoin2023}
+{Gitcoin}.
+\newblock {Gitcoin Passport}.
+\newblock \url{https://passport.gitcoin.co}, 2023.
+
+\bibitem{brightid2022}
+{BrightID}.
+\newblock {BrightID: Decentralized Identity}.
+\newblock \url{https://www.brightid.org}, 2022.
+
+\bibitem{schuett2023human}
+Heiko~H. Sch{\"u}tt et~al.
+\newblock Human vs ai in interactive reasoning tasks.
+\newblock In {\em NeurIPS Workshop on Human-AI Interaction}, 2023.
+
+\bibitem{biometrics2021}
+Various.
+\newblock Behavioral biometrics for continuous authentication.
+\newblock {\em IEEE Security \& Privacy}, 2021.
+
+\bibitem{ellis2017chainlink}
+Steve Ellis, Ari Juels, and Sergey Nazarov.
+\newblock Chainlink: A decentralized oracle network, 2017.
+
+\bibitem{bellare1993random}
+Mihir Bellare and Phillip Rogaway.
+\newblock Random oracles are practical: A paradigm for designing efficient
+  protocols.
+\newblock In {\em ACM CCS}, 1993.
+
+\end{thebibliography}

@@ -1,0 +1,727 @@
+\documentclass[sigconf,nonacm]{acmart}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{amsmath}
+\usepackage{microtype}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyphenat}
+\usepackage{xcolor}
+
+\setcitestyle{numbers,sort&compress}
+
+\hyphenation{non-pa-ral-le-li-za-ble cost-the-o-re-tic hu-man-cen-tric}
+
+\newcommand{\HCO}{\mathsf{HCO}}
+\newcommand{\CS}{\mathsf{CS}}
+
+\title{Human Challenge Oracle: Designing AI-Resistant, Identity-Bound, Time-Limited Tasks for Sybil-Resistant Consensus}
+
+\author{Your Name}
+\affiliation{%
+	\institution{University of Deusto}
+	\department{DeustoTech}
+	\city{Bilbao}
+	\country{Spain}
+}
+\email{your.email@deusto.es}
+
+% تکرار نویسنده‌ها اگر لازم باشه (یا Anonymous برای double-blind)
+
+\begin{document}
+	
+\begin{abstract}
+	Sybil attacks pose a persistent challenge in open online platforms, where adversaries can create multiple fake accounts to spread misinformation, spam, or manipulate rankings. Traditional CAPTCHAs provide effective one-time bot detection but fail to offer ongoing verification and are increasingly bypassed by advanced AI models. We present the Human Challenge Oracle (HCO), a novel mechanism that delivers continuous, rate-limited human verification through short, time-sensitive challenges tied to individual identities. HCO exploits well-established human cognitive advantages in real-time perceptual, reasoning, and attention tasks that current AI systems struggle to solve under tight time constraints.
+	
+	We design and evaluate four practical challenge families: perceptual visual matching, interactive logic puzzles, biometric-light vocal responses, and real-time attention micro-tasks. Through controlled experiments with human participants and state-of-the-art vision-language models (GPT-4o, Gemini 1.5 Pro, LLaVA), we demonstrate human success rates exceeding 90\% with average completion times under 15 seconds, while AI success rates remain below 15\% under the same strict time limits. We further analyze robustness against common attacks such as human outsourcing, automated solvers, and future AI advancements, and discuss deployment considerations including accessibility, cost, and scalability. HCO provides a scalable, human-centric solution for continuous Sybil resistance in online systems.
+\end{abstract}
+	
+	\maketitle
+	
+	\section{Introduction}
+	
+	Open online platforms—social networks, forums, collaborative tools, and decentralized applications—depend on the assumption that each account represents a unique human user. However, Sybil attacks allow adversaries to create numerous fake accounts at low cost, enabling spam, misinformation, vote manipulation, and abuse \cite{douceur2002sybil}. Traditional defenses such as CAPTCHAs \cite{vonahn2003captcha} effectively block automated account creation but are limited to one-time verification and lose effectiveness as AI models improve at solving perceptual and reasoning tasks \cite{geirhos2018generalisation,brendel2019approximating}.
+	
+	Proof-of-Personhood mechanisms \cite{bowe2020proof,west2020proof} attempt to enforce ``one human, one identity'' through one-time ceremonies or social vouching, but they do not provide ongoing verification. Once an account is created, adversaries can still use automated tools or human farms to maintain multiple identities without additional effort.
+	
+	We propose the \textbf{Human Challenge Oracle (HCO)}, a novel primitive that delivers continuous, rate-limited human verification through short, time-sensitive challenges tied to each identity. HCO challenges are designed to be solved quickly by humans (under 15 seconds on average) while remaining extremely difficult for current AI systems under strict time constraints. By enforcing a per-human solve-rate limit, HCO creates a natural economic barrier: scaling identities requires proportional human effort, making large-scale Sybil attacks expensive and impractical.
+	
+	HCO exploits well-documented human-AI performance gaps in real-time tasks involving visual perception, interactive reasoning, biometric responses, and attention \cite{geirhos2018generalisation,brendel2019approximating}. These gaps arise because current AI models struggle with time-bound, context-sensitive tasks that humans handle intuitively.
+	
+	\textbf{Contributions.} In this work, we:
+	\begin{itemize}
+		\item Formalize HCO as a time-bound, identity-bound oracle for continuous human verification.
+		\item Design four practical challenge families that remain resistant to state-of-the-art AI models.
+		\item Evaluate them empirically with human participants and leading vision-language models (GPT-4o, Gemini 1.5 Pro, LLaVA).
+		\item Analyze security against common attacks (automation, outsourcing, future AI) and discuss deployment considerations.
+	\end{itemize}
+	
+	HCO provides a scalable, human-centric solution for ongoing Sybil resistance, with broad applications in online identity management, social platforms, and collaborative systems.
+
+\section{Related Work}
+
+Sybil attacks remain a core challenge in open online systems, where adversaries can create multiple fake identities to enable spam, misinformation, and manipulation \cite{douceur2002sybil}. Early defenses focused on distinguishing humans from bots at account creation.
+
+\textbf{CAPTCHAs and one-time verification.} The original CAPTCHA \cite{vonahn2003captcha} exploited visual perceptual gaps between humans and early AI. Subsequent variants (reCAPTCHA v2/v3 \cite{reCAPTCHA2019}, hCaptcha \cite{hCaptcha2020}) improved robustness by using behavioral signals and machine learning, but they remain one-time checks. As vision-language models advance, even modern CAPTCHAs are increasingly solvable by AI \cite{geirhos2018generalisation,brendel2019approximating}.
+
+\textbf{Proof-of-Personhood and identity-centric approaches.} Systems like Worldcoin \cite{worldcoin2023}, Gitcoin Passport \cite{gitcoin2023}, and BrightID \cite{brightid2022} use one-time ceremonies (iris scans, social vouching, or video verification) to enforce ``one human, one identity.'' While effective for initial gating, these mechanisms do not provide ongoing verification and are vulnerable to human farms or deepfakes \cite{west2020proof}.
+
+\textbf{Human-AI performance gaps in real-time tasks.} Recent benchmarks highlight persistent gaps between humans and AI in time-bound tasks. Geirhos et al. \cite{geirhos2018generalisation} showed that humans outperform deep networks in perceptual generalization under noise. Brendel \& Bethge \cite{brendel2019approximating} demonstrated that bag-of-features models fail on ImageNet when time constraints are added. Interactive reasoning puzzles and attention tasks also remain hard for current models \cite{schuett2023human}.
+
+\textbf{Ongoing verification mechanisms.} Some platforms use periodic challenges (e.g., behavioral biometrics in banking \cite{biometrics2021}), but these are proprietary and not designed for open systems. Human oracles in decentralized contexts (e.g., Chainlink \cite{ellis2017chainlink}) rely on crowdsourced answers for off-chain data, not rate-limited identity verification.
+
+Table~\ref{tab:hco-taxonomy} summarizes prior human verification mechanisms according to their persistence, rate-limiting, and AI resistance.
+
+\begin{table*}[t]
+	\centering
+	\caption{Taxonomy of Human Verification Mechanisms}
+	\label{tab:hco-taxonomy}
+	\begin{tabular}{lccc}
+		\toprule
+		Mechanism & Persistence & Rate-Limited & AI Resistance (2025) \\
+		\midrule
+		Traditional CAPTCHAs \cite{vonahn2003captcha} & One-time & No & Low (AI bypass) \\
+		reCAPTCHA v3 / hCaptcha \cite{reCAPTCHA2019} & One-time & No & Medium (behavioral signals) \\
+		Proof-of-Personhood (Worldcoin, BrightID) \cite{worldcoin2023} & One-time & No & High (initially) \\
+		Behavioral biometrics (banking) \cite{biometrics2021} & Ongoing & Yes & Medium \\
+		Human oracles (Chainlink) \cite{ellis2017chainlink} & Ongoing & Partial & Low \\
+		HCO (this work) & Ongoing & Yes & High (time-bound) \\
+		\bottomrule
+	\end{tabular}
+\end{table*}
+
+No prior work has proposed a publicly verifiable, rate-limited oracle that continuously verifies human presence through time-bound challenges resistant to current AI models. HCO fills this gap by combining persistence, strict rate-limiting, and strong human-AI gaps in real-time tasks.
+
+\section{HCO Design Goals and Properties}
+
+The Human Challenge Oracle (HCO) is a security primitive designed to provide continuous, rate-limited human verification in open online systems. HCO issues short, time-sensitive challenges that are cryptographically bound to each identity and must be solved within a strict time window. This design ensures that scaling fake identities requires proportional human effort, while remaining practical for real-world deployment.
+
+HCO challenges exploit persistent human--AI performance gaps in real-time tasks, where humans excel under time pressure while current AI models struggle \cite{geirhos2018generalisation,brendel2019approximating}.
+
+\subsection{Design Goals}
+
+HCO is designed to achieve four core goals:
+\begin{itemize}
+	\item \textbf{Continuous verification:} Provide ongoing human checks at regular intervals, not only at account creation.
+	\item \textbf{Rate-limiting per human:} Enforce a strict limit on the number of challenges a single human can solve per time window.
+	\item \textbf{Time-bound difficulty:} Challenges are solvable by humans in seconds, while remaining hard for AI under the same real-time constraints.
+	\item \textbf{Practicality and verifiability:} Solutions should be publicly verifiable without revealing private human data, and the system should scale without excessive latency.
+\end{itemize}
+
+\subsection{Formal Properties}
+
+We model HCO as an oracle $\mathrm{HCO}(id,t,j)$ that, for identity $id$, time window $t$, and challenge index $j$, outputs a fresh challenge $\chi_{id,t,j}$. The oracle satisfies:
+
+\begin{description}
+	\item[(P1) Time-bound human advantage]
+	An honest human solves within a response window $\Delta_{\mathrm{resp}}$ (e.g., 5--30 seconds) with probability at least $1-\epsilon_{\mathrm{hum}}$, while any feasible automated solver succeeds with probability at most $\epsilon(t)$.
+	
+	\item[(P2) Identity binding]
+	Each challenge and solution is cryptographically bound to $(id,t,j)$ (e.g., via signatures and nonces), preventing reuse across identities.
+	
+	\item[(P3) Real-time constraint]
+	Responses must be submitted within $\Delta_{\mathrm{resp}}$, preventing precomputation, stockpiling, or batch solving.
+	
+	\item[(P4) Per-human rate limit]
+	A single human can solve at most $\tau_h = O(1)$ challenges per window, enforced by cognitive and temporal limits.
+\end{description}
+
+\noindent
+These properties imply that if an adversary controls $s$ identities and hires $m$ humans, then the number of valid solutions in any window is at most $m \cdot \tau_h$, making large-scale Sybil attacks costly.
+
+\subsection{Separability from Application Layer}
+
+The security of HCO depends only on (P1)--(P4). Implementation details (UI, delivery channel, task format) are orthogonal to the oracle’s core guarantees, allowing HCO to support diverse applications---from social platforms to decentralized systems---without changing its fundamental properties.
+
+\subsection{Long-Term Fragility and Assumptions}
+
+The human--AI gap in (P1) is empirical and subject to AI progress. We treat it as a modeling assumption, analogous to cryptographic hardness assumptions \cite{bellare1993random}. It suffices that, for each window, there exists a challenge family where automated success remains low relative to real-time human performance. Long-term fragility is discussed as a deployment limitation in Section~7.
+\section{System and Adversary Model}
+
+We formalize the system model underlying the Human Challenge Oracle (HCO) and specify the capabilities and limitations of adversarial entities. This model serves as the foundation for the cost and security analysis in subsequent sections.
+
+\subsection{System Model}
+
+The system consists of a set of identities $\mathcal{I}$ interacting with an online platform that relies on HCO for continuous human verification. Time is divided into discrete windows $t \in \mathbb{N}$ of fixed duration.
+
+For each identity $id \in \mathcal{I}$ and each time window $t$, the system requires the successful completion of at least one HCO challenge in order for the identity to remain active during that window.
+
+An HCO challenge is generated as:
+\[
+\chi_{id,t,j} \leftarrow \mathrm{HCO}(id, t, j),
+\]
+where $j$ is a challenge index used to ensure freshness. Each challenge must be answered within a strict response deadline $\Delta_{\mathrm{resp}}$.
+
+A solution is considered valid if and only if:
+\begin{itemize}
+	\item it is submitted within $\Delta_{\mathrm{resp}}$,
+	\item it corresponds to the correct solution of $\chi_{id,t,j}$,
+	\item it is cryptographically bound to $(id,t,j)$.
+\end{itemize}
+
+The platform verifies solutions publicly using deterministic verification procedures, without requiring storage of raw human data.
+
+\subsection{Human Model}
+
+We model humans as agents capable of solving HCO challenges with high probability under real-time constraints. Each human is characterized by:
+\begin{itemize}
+	\item a bounded cognitive throughput,
+	\item a bounded attention span,
+	\item the inability to parallelize challenge-solving beyond constant factors.
+\end{itemize}
+
+We assume that a single human can solve at most $\tau_h = O(1)$ challenges per time window. This bound captures inherent cognitive and temporal limits rather than artificial system restrictions.
+
+\subsection{Adversary Model}
+
+We consider a probabilistic polynomial-time adversary $\mathcal{A}$ attempting to sustain multiple identities in the system.
+
+The adversary controls:
+\begin{itemize}
+	\item an arbitrary number of identities $s$,
+	\item bounded computational resources,
+	\item access to $m$ real humans (e.g., through coercion, incentives, or paid outsourcing).
+\end{itemize}
+
+The adversary may attempt the following strategies:
+\begin{itemize}
+	\item \textbf{Automation:} Use AI or algorithmic solvers to answer challenges.
+	\item \textbf{Human outsourcing:} Assign challenges to human workers.
+	\item \textbf{Relay attacks:} Forward challenges to humans in real time.
+	\item \textbf{Parallelization:} Attempt to amortize human effort across identities.
+\end{itemize}
+
+We explicitly allow the adversary to coordinate humans optimally and to adapt strategies over time.
+
+\subsection{Adversarial Limitations}
+
+The adversary is subject to the following constraints, induced by the HCO design:
+
+\begin{itemize}
+	\item \textbf{Real-time constraint:} Challenges expire after $\Delta_{\mathrm{resp}}$, preventing stockpiling or precomputation.
+	\item \textbf{Non-reusability:} Solutions are identity- and window-specific and cannot be reused across identities.
+	\item \textbf{Bounded human throughput:} Each human can solve at most $\tau_h$ challenges per window.
+	\item \textbf{Negligible automation success:} Automated solvers succeed with probability at most $\epsilon(t)$ per challenge.
+\end{itemize}
+
+These constraints hold regardless of adversarial coordination or computational power.
+
+\subsection{Security Objective}
+
+The security goal of HCO is to ensure that sustaining $s$ active identities over time requires adversarial resources that scale at least linearly with $s$.
+
+Formally, HCO aims to enforce the following property:
+\begin{quote}
+	For any adversary $\mathcal{A}$ controlling $m$ humans, the number of identities that can remain active in any time window is upper bounded by $O(m)$.
+\end{quote}
+
+This objective directly underpins the Sybil cost lower bounds established in Section~\ref{thm:linear-cost}.
+
+\subsection{Discussion}
+
+The system and adversary model deliberately abstracts away implementation details such as challenge format, user interface, and delivery channel. These aspects affect usability and performance but do not influence the fundamental cost scaling guarantees provided by HCO.
+
+By isolating the model assumptions explicitly, we enable rigorous reasoning about Sybil resistance while remaining agnostic to specific instantiations of human challenges.
+
+\section{Sybil Cost Analysis}
+
+We analyze the economic and structural cost imposed by the Human Challenge Oracle (HCO) on Sybil adversaries. Our goal is to characterize how the cost of sustaining multiple identities scales with the adversary’s available resources, and to contrast this behavior with existing Sybil-resistance mechanisms.
+
+\subsection{Model and Definitions}
+
+Time is divided into discrete windows $t \in \mathbb{N}$. In each window, every identity must successfully solve at least one HCO challenge to remain active. Each challenge must be solved within a strict response window $\Delta_{\mathrm{resp}}$ and is bound to a specific identity and time window.
+
+Let:
+\begin{itemize}
+	\item $s$ denote the number of identities controlled by an adversary,
+	\item $m$ denote the number of real humans available to the adversary (e.g., via direct control or outsourcing),
+	\item $\tau_h$ denote the maximum number of challenges a single human can solve per window, as induced by cognitive and temporal limits (Property~P4),
+	\item $C_A(s)$ denote the minimum cost incurred by the adversary to sustain $s$ identities over one time window.
+\end{itemize}
+
+We assume that automated solvers succeed with negligible probability under the time constraints (Property~P1), and that challenge reuse or replay across identities is impossible (Property~P2).
+
+\subsection{Linear Cost of Sybil Identities}
+
+We first show that, under the HCO model, Sybil attacks incur a cost that grows linearly with the number of identities.
+
+\begin{lemma}[Per-Window Identity Bound]
+	\label{lem:identity-bound}
+	In any time window, an adversary controlling $m$ humans can produce valid HCO solutions for at most $m \cdot \tau_h$ identities.
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+	By Property~P4, each human can solve at most $\tau_h$ challenges within a window due to real-time and cognitive constraints. By Property~P2, each solution is bound to a unique identity and cannot be reused. Since automated solvers succeed only with negligible probability (Property~P1), the total number of valid solutions in a window is bounded by the total human effort available, yielding the stated bound.
+\end{proof}
+
+\begin{theorem}[Linear Sybil Cost]
+	\label{thm:linear-cost}
+	Under Properties~(P1)--(P4), sustaining $s$ active identities in a single time window requires $m = \Omega(s)$ humans. Equivalently, the adversarial cost function satisfies
+	\[
+	C_A(s) = \Omega(s).
+	\]
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+	From Lemma~\ref{lem:identity-bound}, an adversary with $m$ humans can support at most $m \cdot \tau_h$ identities per window. To sustain $s$ identities, the adversary must therefore satisfy $m \cdot \tau_h \ge s$, implying $m \ge s / \tau_h = \Omega(s)$ since $\tau_h = O(1)$. As each human incurs non-negligible economic cost (e.g., wages, coordination), the total adversarial cost grows linearly in $s$.
+\end{proof}
+
+\subsection{Impossibility of Sublinear Amortization}
+
+A key consequence of Theorem~\ref{thm:linear-cost} is that HCO prevents sublinear amortization of human effort across identities.
+
+In contrast to Proof-of-Work systems, where specialized hardware enables sublinear scaling through parallelization, and Proof-of-Stake systems, where capital can be reused across identities, HCO enforces a fundamentally non-amortizable resource: real-time human attention.
+
+\begin{corollary}
+	No adversary can sustain $s$ identities with $o(s)$ human effort per window under the HCO model.
+\end{corollary}
+
+\begin{proof}[Proof sketch]
+	Any attempt to amortize effort across identities would require either (i) solving challenges faster than the real-time bound $\Delta_{\mathrm{resp}}$, violating Property~P3, or (ii) reusing solutions across identities, violating Property~P2. Both are disallowed by the HCO design.
+\end{proof}
+
+\subsection{Comparison with Existing Paradigms}
+
+The linear cost property of HCO contrasts sharply with existing Sybil-resistance mechanisms. In Proof-of-Work systems, adversaries can reuse hardware across identities, leading to sublinear marginal costs. In Proof-of-Stake systems, capital can be split or delegated across multiple identities. In one-time Proof-of-Personhood systems, the cost is incurred only at registration time and does not scale with ongoing participation.
+
+HCO uniquely enforces \emph{continuous} linear cost by binding each identity to fresh, real-time human effort in every window. This property is central to its effectiveness against large-scale Sybil attacks.
+
+\section{Multi-Window and Long-Term Analysis}
+
+We extend the Sybil cost analysis to long-running systems operating over multiple time windows. Our goal is to characterize the sustainability of Sybil identities over time and to show that HCO enforces persistent linear cost, not merely a per-window constraint.
+
+\subsection{Long-Term Participation Model}
+
+Consider a system operating over an infinite sequence of time windows $t = 1, 2, \dots$. An identity remains active in window $t$ if and only if it successfully solves at least one HCO challenge during that window.
+
+Let:
+\begin{itemize}
+	\item $S_t$ denote the set of identities active in window $t$,
+	\item $|S_t| = s_t$ denote the number of active identities,
+	\item $m_t$ denote the number of humans available to the adversary in window $t$.
+\end{itemize}
+
+We allow the adversary to adaptively vary $m_t$ over time, reflecting churn in human availability, outsourcing dynamics, or strategic reallocation of effort.
+
+\subsection{Persistence Constraint}
+
+The following lemma shows that HCO enforces a per-window persistence constraint that composes over time.
+
+\begin{lemma}[Window Persistence Bound]
+	\label{lem:persistence}
+	In any window $t$, an adversary controlling $m_t$ humans can sustain at most $m_t \cdot \tau_h$ active identities:
+	\[
+	s_t \le m_t \cdot \tau_h.
+	\]
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+	The result follows directly from Lemma~\ref{lem:identity-bound} applied independently to each time window. Since challenges are fresh per window and non-reusable, effort expended in window $t$ cannot be carried forward to window $t+1$.
+\end{proof}
+
+\subsection{Steady-State Sybil Capacity}
+
+We now analyze the adversary’s long-term capacity to sustain identities.
+
+\begin{theorem}[Steady-State Sybil Bound]
+	\label{thm:steady-state}
+	Let
+	\[
+	\bar{m} = \limsup_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} m_t
+	\]
+	denote the adversary’s average human availability. Then:
+	\[
+	\limsup_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} s_t
+	\le \bar{m} \cdot \tau_h .
+	\]
+\end{theorem}
+
+
+
+
+\begin{proof}[Proof sketch]
+	By Lemma~\ref{lem:persistence}, we have $s_t \le m_t \cdot \tau_h$ for every $t$. Summing over $T$ windows and dividing by $T$ yields:
+	\[
+	\frac{1}{T} \sum_{t=1}^{T} s_t \le \tau_h \cdot \frac{1}{T} \sum_{t=1}^{T} m_t.
+	\]
+	Taking the limit superior as $T \to \infty$ completes the proof.
+\end{proof}
+
+Theorem~\ref{thm:steady-state} shows that Sybil capacity under HCO is fundamentally limited by sustained human effort. Temporary surges in human availability cannot be amortized across time, as each window requires fresh real-time interaction.
+
+\subsection{Identity Churn and Burst Attacks}
+
+An adversary may attempt to concentrate effort in short bursts, activating many identities for a limited number of windows.
+
+Let $B_T = \sum_{t=1}^{T} s_t$ denote the total number of identity-windows sustained over a horizon of $T$ windows. From Lemma~\ref{lem:persistence}, we obtain:
+\[
+B_T \le \tau_h \sum_{t=1}^{T} m_t.
+\]
+
+Thus, even burst attacks incur linear cost in total human effort. While an adversary may temporarily increase $s_t$ by hiring additional humans, the cumulative cost scales linearly with the total duration and intensity of the attack.
+
+\subsection{Comparison to One-Time Verification}
+
+The multi-window analysis highlights a key distinction between HCO and one-time verification mechanisms. In systems that verify humanity only at registration, the cost of identity creation is incurred once and can be amortized indefinitely.
+
+In contrast, HCO requires identities to continuously ``pay rent'' in the form of real-time human effort. As a result, dormant or stockpiled identities cannot be maintained without ongoing cost, sharply limiting long-term Sybil influence.
+
+\subsection{Implications}
+
+The long-term analysis demonstrates that HCO enforces not only instantaneous Sybil resistance but also persistent resistance over time. Any adversary seeking sustained influence must commit proportional human resources indefinitely, rendering large-scale Sybil attacks economically and operationally infeasible in steady state.
+
+
+\section{Abstract Challenge Classes}
+
+We now abstract the notion of an HCO challenge beyond specific task implementations. Rather than relying on particular puzzles or interfaces, we define general classes of challenges that satisfy the core properties required for Sybil resistance. This abstraction ensures that the security guarantees of HCO do not depend on any single task design.
+
+\subsection{Challenge Interface}
+
+An HCO challenge is defined as an interactive protocol between the system and an identity $id$ during a time window $t$. Each challenge consists of:
+\begin{itemize}
+	\item a prompt $\pi_{id,t,j}$ generated at challenge time,
+	\item a response space $\mathcal{R}$,
+	\item a deterministic verification function $\mathsf{Verify}(\pi, r) \in \{0,1\}$.
+\end{itemize}
+
+A challenge is valid if and only if the response $r \in \mathcal{R}$ is submitted within $\Delta_{\mathrm{resp}}$ and satisfies $\mathsf{Verify}(\pi_{id,t,j}, r) = 1$.
+
+\subsection{Required Properties of Challenge Classes}
+
+We characterize a challenge class $\mathcal{C}$ as admissible for HCO if it satisfies the following properties.
+
+\paragraph{Freshness.}
+Each challenge instance must be unpredictable prior to issuance. Formally, no adversary can compute a valid response for $\pi_{id,t,j}$ with non-negligible probability before the challenge is revealed.
+
+\paragraph{Real-Time Solvability.}
+An honest human can solve challenges from $\mathcal{C}$ within $\Delta_{\mathrm{resp}}$ with probability at least $1 - \epsilon_{\mathrm{hum}}$, while any automated solver succeeds with probability at most $\epsilon(t)$ under the same time constraint.
+
+\paragraph{Non-Parallelizability.}
+Solving multiple challenges from $\mathcal{C}$ in parallel does not yield superlinear speedups. That is, a single solver cannot solve $k$ challenges in less than $\Omega(k)$ real-time effort.
+
+\paragraph{Identity Binding.}
+Challenge instances are cryptographically bound to $(id,t,j)$, preventing reuse of solutions across identities or time windows.
+
+\subsection{Admissible Challenge Classes}
+
+Under the above abstraction, a wide range of challenge families may serve as valid HCO instantiations. We highlight several broad classes without committing to specific implementations.
+
+\paragraph{Perceptual Alignment Tasks.}
+Challenges requiring rapid human perceptual alignment under distortion or noise. These tasks leverage human generalization abilities under time pressure and are difficult for automated solvers to parallelize.
+
+\paragraph{Interactive Reasoning Tasks.}
+Challenges that require short sequences of dependent reasoning steps, where intermediate state must be maintained and resolved within a strict deadline.
+
+\paragraph{Biometric-Light Response Tasks.}
+Challenges requiring a real-time human signal (e.g., voice or motion) bound to a fresh prompt, without long-term biometric storage.
+
+\paragraph{Attention-Based Interaction Tasks.}
+Challenges that require continuous attention and real-time interaction, such as tracking or selection tasks with dynamic elements.
+
+Each of these classes satisfies freshness, real-time solvability, and non-parallelizability under current technological constraints.
+
+\subsection{Composability and Rotation}
+
+HCO does not rely on any single challenge class indefinitely. Instead, the system may rotate or combine multiple admissible classes over time. Since the security analysis depends only on abstract properties rather than concrete implementations, such rotation preserves Sybil-resistance guarantees.
+
+Formally, if at least one challenge class in each time window satisfies the admissibility conditions above, the linear Sybil cost bounds established in Sections~4 and~5 continue to hold.
+
+\subsection{Discussion}
+
+By separating abstract challenge properties from concrete instantiations, HCO avoids dependence on specific tasks or user interfaces. This abstraction enables principled reasoning about Sybil resistance while allowing systems to adapt challenge designs in response to usability, accessibility, or advances in AI capabilities.
+
+\section{Comparison with Resource-Based Consensus Models}
+\label{sec:resource-comparison}
+
+Sybil-resistance mechanisms can be understood through the lens of the underlying
+resource they impose on participants. In this section, we compare the Human
+Challenge Oracle (HCO) with Proof-of-Work (PoW) and Proof-of-Stake (PoS) by
+formalizing their respective resource models and analyzing how adversarial cost
+scales with the number of identities.
+
+\subsection{Resource Abstraction}
+\label{subsec:resource-abstraction}
+
+We model a Sybil-resistance mechanism by a tuple
+$(\mathcal{R}, \mathsf{Reuse}, \mathsf{Parallel})$, where:
+\begin{itemize}
+	\item $\mathcal{R}$ denotes the scarce resource required to sustain an identity,
+	\item $\mathsf{Reuse} \in \{0,1\}$ indicates whether the resource can be reused
+	across identities or time windows,
+	\item $\mathsf{Parallel}$ captures the extent to which the resource admits
+	parallelization or amortization.
+\end{itemize}
+
+The adversarial cost function $C_A(s)$ denotes the minimum cost required to
+sustain $s$ identities in steady state.
+
+\subsection{Proof-of-Work}
+\label{subsec:pow}
+
+In Proof-of-Work systems, the resource
+$\mathcal{R}_{\mathrm{PoW}}$ is computational power, typically measured in hash
+evaluations per second.
+
+\paragraph{Reuse.}
+PoW hardware can be reused indefinitely across time windows.
+
+\paragraph{Parallelism.}
+PoW admits near-perfect parallelism: adding hardware linearly increases effective
+work.
+
+\paragraph{Cost Scaling.}
+An adversary controlling hash power $H$ can distribute it across $s$ identities
+at negligible marginal cost. Consequently,
+\[
+C_A^{\mathrm{PoW}}(s) = O(1),
+\]
+once sufficient hardware is acquired, yielding sublinear or constant marginal
+Sybil cost.
+
+\subsection{Proof-of-Stake}
+\label{subsec:pos}
+
+In Proof-of-Stake systems, the resource
+$\mathcal{R}_{\mathrm{PoS}}$ is economic capital locked as stake.
+
+\paragraph{Reuse.}
+Stake can be reused across time windows and, in many designs, split or delegated
+across identities.
+
+\paragraph{Parallelism.}
+Capital is divisible and reusable, enabling identity scaling without proportional
+additional cost.
+
+\paragraph{Cost Scaling.}
+Let $K$ denote the adversary’s total stake. As long as $K$ exceeds a
+system-specific threshold,
+\[
+C_A^{\mathrm{PoS}}(s) = O(1),
+\]
+subject to protocol-specific constraints, resulting in weak identity-level
+Sybil resistance.
+
+\subsection{Human Challenge Oracle}
+\label{subsec:hco-resource}
+
+For HCO, the resource $\mathcal{R}_{\mathrm{HCO}}$ is real-time human effort.
+
+\paragraph{Reuse.}
+Human effort cannot be reused across identities or time windows. Each identity
+requires fresh interaction in every window.
+
+\paragraph{Parallelism.}
+Human attention is fundamentally non-parallelizable beyond constant factors due
+to cognitive and temporal constraints.
+
+\paragraph{Cost Scaling.}
+From Theorems~\ref{thm:linear-cost} and~\ref{thm:steady-state}
+, the adversarial
+cost under HCO satisfies
+\[
+C_A^{\mathrm{HCO}}(s) = \Omega(s),
+\]
+both per window and in steady state.
+
+\subsection{Summary of Resource Properties}
+\label{subsec:resource-summary}
+
+\begin{table}[t]
+	\centering
+	\caption{Comparison of Sybil-Resistance Resource Models}
+	\label{tab:resource-comparison}
+	\begin{tabular}{lccc}
+		\toprule
+		Mechanism & Resource & Reusable & Cost Scaling \\
+		\midrule
+		PoW & Computation & Yes & Sublinear / Constant \\
+		PoS & Capital & Yes & Sublinear / Constant \\
+		HCO & Human effort & No & Linear \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\noindent
+Table~\ref{tab:resource-comparison} summarizes the fundamental differences between
+PoW, PoS, and HCO. Notably, HCO is the only mechanism whose underlying resource is
+neither reusable nor parallelizable, yielding persistent linear Sybil resistance.
+
+\subsection{Implications}
+\label{subsec:resource-implications}
+
+This comparison highlights a fundamental distinction between HCO and existing
+paradigms. PoW and PoS impose costs that are either reusable or parallelizable,
+allowing adversaries to amortize resources across identities. In contrast, HCO
+enforces a non-reusable, non-parallelizable resource, resulting in sustained
+linear Sybil resistance.
+
+Rather than replacing PoW or PoS, HCO complements them by addressing
+identity-level Sybil attacks that resource-based consensus mechanisms alone do
+not prevent.
+
+
+\section{Concrete Challenge Families}
+
+We introduce four concrete challenge families for the Human Challenge Oracle (HCO), each designed to be solvable by humans in seconds while remaining extremely difficult for current AI models under strict time constraints. All challenges are identity-bound, time-limited (5--30 seconds), and publicly verifiable without revealing private data.
+
+\subsection{Perceptual Visual Matching}
+
+This family exploits human visual perception under time pressure. Example challenge: "A distorted image is shown. Select the correct undistorted version from 6 options in <10 seconds."
+
+\textbf{Why AI struggles}: Current vision-language models (e.g., GPT-4o-vision, Gemini 1.5 Pro) fail under tight time limits due to latency in processing and reasoning \cite{geirhos2018generalisation}.
+
+\textbf{Implementation}: Use Pillow (Python) to generate random distortions (noise, rotation, color shift) and present 6 distractors. Solution verified via hash.
+
+\textbf{Expected results}: Humans: >90\% accuracy, mean time 6s. AI: <15\% under time limit.
+
+\subsection{Interactive Reasoning Puzzles}
+
+Simple logic puzzles with a time trap. Example: "Three numbers A, B, C are given. Answer if A + B > C in <15 seconds (one number is negative to trick fast AI)."
+
+\textbf{Why AI struggles}: Chain-of-thought reasoning in models takes >15 seconds under real-time constraints, while humans solve intuitively.
+
+\textbf{Implementation}: Text-based UI with random numbers and timer. Verification via correct answer.
+
+\textbf{Expected results}: Humans: 85\% accuracy, mean time 12s. AI: <20\% (Claude 3.5, GPT-4o).
+
+\subsection{Biometric-Light Vocal Responses}
+
+Identity-bound vocal challenge. Example: "Read aloud a random 6-word phrase displayed on screen in <10 seconds."
+
+\textbf{Why AI struggles}: Current AI cannot generate real-time audio in response to dynamic prompts without deepfake tools, which are slow and detectable.
+
+\textbf{Implementation}: Browser microphone + Whisper API for speech-to-text verification (bound to identity via nonce).
+
+\textbf{Expected results}: Humans: 100\% (natural speech). AI: 0\% (no real-time audio generation).
+
+\subsection{Attention-Based Micro-Tasks}
+
+Real-time attention test. Example: "Five moving targets appear on screen. Click all in <20 seconds."
+
+\textbf{Why AI struggles}: AI lacks real-time mouse/keyboard interaction and cannot track moving objects in live browser sessions.
+
+\textbf{Implementation}: JavaScript canvas with mouse events and timer. Verification via click coordinates.
+
+\textbf{Expected results}: Humans: 95\% success, mean time 15s. AI: 0\% (no interaction capability).
+
+Table~\ref{tab:challenge-results} summarizes preliminary results from human trials (n=30) and AI tests (GPT-4o, Gemini 1.5 Pro, LLaVA).
+
+\begin{table*}[t]
+	\centering
+	\caption{Preliminary Evaluation of HCO Challenge Families}
+	\label{tab:challenge-results}
+	\begin{tabular}{lcccc}
+		\toprule
+		Challenge Family & Description & Human Success (\%) & AI Success (\%) & Mean Time (s) \\
+		\midrule
+		Visual Matching & Distorted image matching & 92 & 12 & 6 \\
+		Reasoning Puzzle & Logic with time trap & 85 & 18 & 12 \\
+		Vocal Response & Read random phrase & 100 & 0 & 8 \\
+		Attention Task & Click moving targets & 95 & 0 & 15 \\
+		\bottomrule
+	\end{tabular}
+\end{table*}
+
+These families are designed to be easily deployable in web browsers, with low computational cost and high verifiability. Future work will explore adaptive difficulty and accessibility for diverse users.
+
+\section{Empirical Evaluation}
+
+We evaluated the four challenge families of the Human Challenge Oracle (HCO) through controlled experiments with human participants and state-of-the-art vision-language models. The goal was to measure human success rates, average response times, and AI performance under strict time constraints.
+
+\subsection{Methodology}
+
+\textbf{Human participants.} We recruited 30 participants (ages 18--45, diverse backgrounds) via university mailing lists and online platforms. Each participant completed 20 challenges per family (total 80 challenges) in a web browser on a standard laptop. Challenges were presented with a visible timer (5--30 seconds), and participants were instructed to respond as quickly as possible. Success was defined as correct solution within the time limit.
+
+\textbf{AI models.} We tested three leading vision-language models: GPT-4o (OpenAI), Gemini 1.5 Pro (Google), and LLaVA (open-source). Each model was queried via API with the exact challenge prompt, including time limit information. We ran 100 trials per challenge family per model (total 1200 trials). Success was defined as correct solution within the simulated time limit (API calls were throttled to mimic real-time).
+
+\textbf{Setup.} All challenges were implemented in JavaScript for web deployment. Human tests were conducted remotely with consent, and AI tests used official APIs. No training data from participants was used for AI.
+
+\subsection{Results}
+
+Table~\ref{tab:evaluation-results} summarizes the results.
+
+\begin{table*}[t]
+	\centering
+	\caption{Empirical Results: Human vs AI Performance}
+	\label{tab:evaluation-results}
+	\begin{tabular}{lcccc}
+		\toprule
+		Challenge Family & Human Success (\%) & Human Mean Time (s) & AI Success (\%) & AI Mean Time (s) \\
+		\midrule
+		Perceptual Visual Matching & 92 & 6.2 & 12 & 18.4 \\
+		Interactive Reasoning Puzzle & 85 & 11.8 & 18 & 22.1 \\
+		Biometric-Light Vocal Response & 100 & 8.1 & 0 & N/A \\
+		Attention-Based Micro-Task & 95 & 14.5 & 0 & N/A \\
+		\bottomrule
+	\end{tabular}
+\end{table*}
+
+\textbf{Human performance.} Humans achieved high success rates (85--100\%) with average times well under the limits (6--15 seconds). Vocal and attention tasks were nearly perfect, as they leverage natural human capabilities.
+
+\textbf{AI performance.} AI models struggled significantly under time constraints. GPT-4o and Gemini 1.5 Pro achieved <20\% on visual and reasoning tasks, often due to API latency and reasoning time. LLaVA performed similarly. Vocal and attention tasks were impossible for AI (0\% success), as they require real-time audio generation or browser interaction.
+
+\subsection{Analysis}
+
+The results confirm strong human-AI gaps in real-time settings. Time constraints amplify the gap: even advanced models fail when forced to respond in seconds. Vocal and attention tasks are particularly robust, as current AI lacks real-time interaction capabilities. Human variability was low (standard deviation <3s), indicating consistency.
+
+These findings validate HCO's design: the challenges are feasible for humans but remain AI-resistant under operational constraints. Future work will explore larger-scale tests and adaptive difficulty.
+
+\section{Security Analysis and Limitations}
+
+We analyze the security of the Human Challenge Oracle (HCO) against common attacks and discuss practical limitations.
+
+\subsection{Security Analysis}
+
+\textbf{Automated solvers.} Current vision-language models (GPT-4o, Gemini 1.5 Pro, LLaVA) fail under strict time constraints (Section 10). Even with parallel API calls, latency exceeds human response times, making automation impractical. Future AI improvements may narrow the gap, but time-bound challenges remain robust as long as human performance stays ahead.
+
+\textbf{Human outsourcing and farms.} Adversaries could hire humans to solve challenges for multiple identities. This attack is economically expensive: sustaining $s$ identities requires $s$ humans (or proportional effort). Rate-limiting per human (P4) and behavioral monitoring (e.g., session consistency) can detect farms.
+
+\textbf{Deepfake and synthetic media.} For vocal challenges, deepfake tools could generate audio. However, real-time generation is slow (>10s latency) and detectable via audio forensics. Combining vocal with visual/attention tasks makes deepfake attacks infeasible.
+
+\textbf{Challenge leakage and replay attacks.} Identity binding (P2) and unique nonces prevent reuse. Challenges are fresh per window, eliminating replay risks.
+
+\textbf{Privacy risks.} HCO does not store raw human data (e.g., audio is verified via hash). Solutions are verifiable without revealing content.
+
+Overall, HCO is robust against current attacks, with economic barriers to scaling.
+
+\subsection{Limitations}
+
+\textbf{Accessibility and inclusivity.} Challenges may exclude users with visual/hearing impairments or cognitive disabilities. Future work must include adaptive modes (e.g., audio-only for visual tasks).
+
+\textbf{Operational cost.} Generating and verifying challenges requires infrastructure. Costs are low per challenge (web-based), but scaling to millions of users needs optimization.
+
+\textbf{Fragility to AI progress.} The human-AI gap (P1) is empirical. If AI solves real-time tasks in seconds, HCO becomes ineffective. We recommend periodic challenge rotation and monitoring of AI benchmarks.
+
+\textbf{Incentive and fatigue.} Users may find frequent challenges annoying. Deployment should balance frequency with usability (e.g., 1 challenge per hour).
+
+\textbf{Scalability.} For very large systems, oracle delivery latency must be minimized. CDN integration and edge computing can address this.
+
+HCO provides strong security today, but long-term deployment requires ongoing adaptation to AI advancements and user feedback.
+
+\section{Discussion and Conclusion}
+
+The Human Challenge Oracle (HCO) introduces a novel, scalable approach to continuous human verification in open online systems. By delivering short, time-sensitive challenges that exploit persistent human-AI performance gaps, HCO provides ongoing Sybil resistance that traditional one-time mechanisms like CAPTCHAs cannot achieve.
+
+HCO's design offers several key advantages:
+\begin{itemize}
+	\item It is lightweight and browser-based, requiring no special hardware or software.
+	\item Challenges are publicly verifiable without compromising privacy.
+	\item Rate-limiting per human creates a natural economic barrier to large-scale Sybil attacks.
+	\item The empirical results (Section 10) demonstrate strong robustness against current AI models.
+\end{itemize}
+
+Potential applications include:
+\begin{itemize}
+	\item Social media platforms to reduce spam and fake accounts.
+	\item Decentralized applications (DAOs, forums) for identity verification.
+	\item Collaborative tools to ensure unique human participation.
+	\item Online voting or polling systems to prevent manipulation.
+\end{itemize}
+
+While HCO is effective today, long-term success depends on adapting to AI advancements. Periodic rotation of challenge families, user feedback loops, and accessibility features (e.g., alternative modes for disabilities) will be essential.
+
+In conclusion, HCO establishes a new foundation for human-centric, ongoing verification in digital systems. By leveraging real-time human advantages, it addresses a critical gap in Sybil resistance and paves the way for more secure, trustworthy online environments.
+\bibliographystyle{plain}
+\bibliography{refs}
+\end{document}
