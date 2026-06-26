@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+aiosqlite
+pillow
+numpy
+python-multipart
+cryptography
+pandas
+scipy
+matplotlib
+seaborn
