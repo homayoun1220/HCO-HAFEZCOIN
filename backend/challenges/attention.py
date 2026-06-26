@@ -44,7 +44,10 @@ def generate_challenge() -> Tuple[Dict[str, Any], Dict[str, Any]]:
     if waypoints[-1]["t"] < duration:
         waypoints.append({"x": x, "y": y, "t": duration})
 
-    stop_time = rng.uniform(10.0, 14.0)
+    path_end = waypoints[-1]["t"]
+    # Stop while the dot is still on the path — never after the path ends
+    earliest = waypoints[1]["t"] if len(waypoints) > 1 else path_end * 0.5
+    stop_time = rng.uniform(max(earliest, path_end * 0.65), path_end)
 
     # Interpolate position at stop_time for verification
     def _pos_at(t: float) -> Dict[str, float]:

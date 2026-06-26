@@ -160,7 +160,7 @@ export default function Study({
   }, [sessionReady, sessionId, currentFamily, trialInFamily, trialNum, loadChallenge])
 
   const handleSubmit = useCallback(async (response) => {
-    if (submittingRef.current || !challengeIdRef.current || !sessionId) return
+    if (submittingRef.current || !challengeIdRef.current || !sessionId) return false
     submittingRef.current = true
     setSubmitting(true)
     setTimerRunning(false)
@@ -184,10 +184,12 @@ export default function Study({
           setTrialNum((n) => n + 1)
         }
       }, 800)
+      return true
     } catch (err) {
       console.error('Submit failed', err)
       submittingRef.current = false
       setSubmitting(false)
+      return false
     }
   }, [sessionId, trialNum, navigate, setScore])
 

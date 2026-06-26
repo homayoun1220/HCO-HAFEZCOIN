@@ -3,7 +3,6 @@ name: hco
 services:
   hco-db:
     image: alpine:3.20
-    container_name: hco-db
     volumes:
       - hco-db-data:/data
     command: >
@@ -24,9 +23,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: hco-backend
-    env_file:
-      - .env
     environment:
       HCO_DB_PATH: /data/hco_study.db
       HCO_COMPLETION_CODE: ${HCO_COMPLETION_CODE:-HCO-STUDY-COMPLETE}
@@ -52,7 +48,6 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_API_URL: ""
-    container_name: hco-frontend
     ports:
       - "8080:80"
     depends_on:

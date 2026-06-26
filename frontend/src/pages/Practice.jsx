@@ -28,7 +28,7 @@ export default function Practice() {
     navigate('/study')
   }, [navigate])
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     setFeedback('practice')
     setTimeout(() => {
       setFeedback(null)
@@ -38,6 +38,7 @@ export default function Practice() {
         setFamilyIdx((i) => i + 1)
       }
     }, 800)
+    return true
   }, [familyIdx])
 
   const renderChallenge = () => {
