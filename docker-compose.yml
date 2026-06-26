@@ -1,0 +1,65 @@
+name: hco
+
+services:
+  hco-db:
+    image: alpine:3.20
+    container_name: hco-db
+    volumes:
+      - hco-db-data:/data
+    command: >
+      sh -c "mkdir -p /data &&
+             touch /data/hco_study.db &&
+             chmod -R 777 /data &&
+             echo 'SQLite database volume ready at /data/hco_study.db' &&
+             tail -f /dev/null"
+    healthcheck:
+      test: ["CMD", "test", "-f", "/data/hco_study.db"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+  hco-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hco-backend
+    env_file:
+      - .env
+    environment:
+      HCO_DB_PATH: /data/hco_study.db
+      HCO_COMPLETION_CODE: ${HCO_COMPLETION_CODE:-HCO-STUDY-COMPLETE}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:8080}
+    volumes:
+      - hco-db-data:/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      hco-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+  hco-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ""
+    container_name: hco-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      hco-backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  hco-db-data:
+    name: hco-db-data

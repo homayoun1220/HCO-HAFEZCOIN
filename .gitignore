@@ -1,0 +1,29 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*.db
+.env
+
+# Node
+node_modules/
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Analysis output
+figures/
+
+# Backups
+backups/
+
+# Local assets (not used in app)
+*.png
+*.jpg
+!frontend/public/**

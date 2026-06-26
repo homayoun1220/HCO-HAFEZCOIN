@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: hco-backend
+    runtime: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: HCO_DB_PATH
+        value: /data/hco_study.db
+      - key: HCO_COMPLETION_CODE
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+    disk:
+      name: hco-db
+      mountPath: /data
+      sizeGB: 1
