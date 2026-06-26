@@ -10,10 +10,52 @@ A web application for conducting human-subject experiments on real-time challeng
 
 ## Prerequisites
 
-- Python 3.10+
-- Node.js 18+
+- **Docker** (recommended): Docker Engine 24+ and Docker Compose v2
+- **Local dev**: Python 3.10+, Node.js 18+
 
-## Local Setup
+## Quick Start (Docker)
+
+From the `hco-study` directory:
+
+```bash
+cp .env.example .env   # optional — edit HCO_COMPLETION_CODE if needed
+docker compose up --build
+```
+
+| Service | URL |
+|---------|-----|
+| **App (frontend)** | http://localhost:8080 |
+| **API (backend)** | http://localhost:8000 |
+| **Health check** | http://localhost:8000/api/health |
+| **Export CSV** | http://localhost:8000/api/admin/export |
+
+Prolific test URL:
+
+```
+http://localhost:8080/?PROLIFIC_PID=TEST123&STUDY_ID=STUDY456
+```
+
+Stop:
+
+```bash
+docker compose down
+```
+
+Remove database volume (reset all trial data):
+
+```bash
+docker compose down -v
+```
+
+### Docker services
+
+| Container | Role |
+|-----------|------|
+| `hco-db` | Persistent SQLite volume (`/data/hco_study.db`) |
+| `hco-backend` | FastAPI API |
+| `hco-frontend` | React app (nginx, proxies `/api` → backend) |
+
+## Local Setup (without Docker)
 
 ### Backend
 

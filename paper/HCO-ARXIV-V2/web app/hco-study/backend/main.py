@@ -31,6 +31,8 @@ GENERATORS = {
 CORS_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
     os.environ.get("FRONTEND_URL", ""),
 ]
 CORS_ORIGINS = [o for o in CORS_ORIGINS if o]
