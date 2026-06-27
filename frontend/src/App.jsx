@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Landing from './pages/Landing'
+import Language from './pages/Language'
+import Welcome from './pages/Welcome'
 import Consent from './pages/Consent'
 import Guide from './pages/Guide'
 import Practice from './pages/Practice'
@@ -29,15 +30,8 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background text-white font-sans">
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Landing
-              setProlificPid={setProlificPid}
-              setStudyId={setStudyId}
-            />
-          }
-        />
+        <Route path="/" element={<Language />} />
+        <Route path="/welcome" element={<Welcome setProlificPid={setProlificPid} setStudyId={setStudyId} />} />
         <Route path="/consent" element={<Consent />} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/practice" element={<Practice />} />
@@ -70,6 +64,7 @@ export default function App() {
             />
           }
         />
+        <Route path="*" element={<Language />} />
       </Routes>
     </div>
   )

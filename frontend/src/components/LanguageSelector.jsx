@@ -1,54 +1,47 @@
 import { motion } from 'framer-motion'
 import { LANGUAGES, useLanguage } from '../i18n/LanguageContext'
 
-export default function LanguageSelector({ prominent = false }) {
-  const { lang, setLang, t } = useLanguage()
+export default function LanguageSelector({ prominent = false, onSelect }) {
+  const { lang, setLang } = useLanguage()
+
+  const pick = (code) => {
+    setLang(code)
+    onSelect?.(code)
+  }
 
   if (prominent) {
     return (
-      <div className="w-full max-w-2xl mx-auto mb-10">
-        <div className="text-center mb-8">
-          <span className="inline-block text-5xl mb-4" role="img" aria-hidden>🌐</span>
-          <h2 className="text-2xl md:text-4xl font-bold text-white mb-2">
-            {t('lang.choose')}
-          </h2>
-          <p className="text-gray-400 text-base md:text-lg">{t('lang.chooseSub')}</p>
-        </div>
+      <div className="w-full max-w-3xl mx-auto text-center">
+        <span className="inline-block text-6xl mb-5" role="img" aria-hidden>🌐</span>
+        <h2 className="text-3xl md:text-5xl font-bold text-white mb-3">
+          Choose your language
+        </h2>
+        <p className="text-gray-400 text-lg md:text-xl mb-2">Elige tu idioma</p>
+        <p className="text-gray-500 text-sm md:text-base mb-8 md:mb-12">Select a language to continue</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {Object.values(LANGUAGES).map(({ code, label, flag }) => {
-            const selected = lang === code
-            return (
-              <motion.button
-                key={code}
-                type="button"
-                onClick={() => setLang(code)}
-                whileHover={{ scale: 1.04, y: -4 }}
-                whileTap={{ scale: 0.97 }}
-                className={`flex flex-col items-center justify-center gap-5 p-10 md:p-12 rounded-2xl border-2 transition-all duration-300 min-h-[220px] ${
-                  selected
-                    ? 'border-accent bg-accent/15 shadow-xl shadow-accent/25 ring-2 ring-accent/40'
-                    : 'border-[#2a2a38] bg-card hover:border-accent/50 hover:bg-accent/5'
-                }`}
+        <div className="grid grid-cols-2 gap-4 md:gap-8 max-w-2xl mx-auto">
+          {Object.values(LANGUAGES).map(({ code, label, flag }) => (
+            <motion.button
+              key={code}
+              type="button"
+              onClick={() => pick(code)}
+              whileHover={{ scale: 1.04, y: -6 }}
+              whileTap={{ scale: 0.97 }}
+              className="flex flex-col items-center justify-center gap-4 py-10 md:py-14 px-4 rounded-3xl border-2 border-[#2a2a38] bg-card hover:border-accent/50 hover:bg-accent/5 transition-colors min-h-[200px] sm:min-h-[280px] md:min-h-[320px]"
+            >
+              <span
+                className="leading-none select-none"
+                style={{ fontSize: 'clamp(4.5rem, 22vw, 9rem)' }}
+                role="img"
+                aria-hidden
               >
-                <span className="text-8xl md:text-9xl leading-none select-none" role="img" aria-hidden>
-                  {flag}
-                </span>
-                <span className={`text-xl md:text-2xl font-bold ${selected ? 'text-accent' : 'text-white'}`}>
-                  {label}
-                </span>
-                {selected && (
-                  <motion.span
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-sm text-accent font-medium"
-                  >
-                    ✓
-                  </motion.span>
-                )}
-              </motion.button>
-            )
-          })}
+                {flag}
+              </span>
+              <span className="text-xl md:text-3xl font-bold text-white">
+                {label}
+              </span>
+            </motion.button>
+          ))}
         </div>
       </div>
     )
