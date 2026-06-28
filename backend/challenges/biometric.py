@@ -54,4 +54,5 @@ def generate_challenge() -> Tuple[Dict[str, Any], Dict[str, Any]]:
 
 def verify_response(challenge: Dict[str, Any], response: Dict[str, Any]) -> bool:
     audio_b64 = response.get("audio_b64", "")
-    return len(audio_b64) > 100
+    # Real WebM recordings are much larger than placeholder filler
+    return len(audio_b64) >= 500

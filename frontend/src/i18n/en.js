@@ -133,6 +133,9 @@ export default {
     recording: 'Recording… speak now',
     processing: 'Processing…',
     submit: 'Submit Recording',
+    needHttps: 'Microphone requires a secure connection (HTTPS). Please open the study via https:// — not plain http://.',
+    micDenied: 'Microphone access was blocked. Allow the microphone in your browser settings, then tap Retry.',
+    micRetry: 'Retry microphone',
   },
   error: {
     title: 'Something went wrong loading this challenge.',

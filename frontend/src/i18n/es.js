@@ -133,6 +133,9 @@ export default {
     recording: 'Grabando… habla ahora',
     processing: 'Procesando…',
     submit: 'Enviar Grabación',
+    needHttps: 'El micrófono requiere una conexión segura (HTTPS). Abre el estudio con https://, no con http://.',
+    micDenied: 'Se bloqueó el acceso al micrófono. Permítelo en la configuración del navegador y pulsa Reintentar.',
+    micRetry: 'Reintentar micrófono',
   },
   error: {
     title: 'Algo salió mal al cargar este desafío.',
