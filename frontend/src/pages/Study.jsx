@@ -10,7 +10,6 @@ import Reasoning from '../components/Reasoning'
 import Attention from '../components/Attention'
 import Biometric from '../components/Biometric'
 import ChallengeErrorBoundary from '../components/ChallengeErrorBoundary'
-import LanguageBar from '../components/LanguageBar'
 import { isStudyEligible, loadSession, saveSession } from '../sessionStorage'
 import { useT } from '../i18n/LanguageContext'
 
@@ -248,7 +247,6 @@ export default function Study({
   if (!sessionReady) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <LanguageBar />
         <ChallengeSpinner label={t('study.startingSession')} />
       </div>
     )
@@ -256,7 +254,6 @@ export default function Study({
 
   return (
     <div className="min-h-screen flex flex-col px-4 py-6 md:px-8">
-      <LanguageBar />
       <div className="max-w-5xl mx-auto w-full flex flex-col flex-1 gap-6">
         <ProgressBar
           current={trialNum}

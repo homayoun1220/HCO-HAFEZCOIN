@@ -5,7 +5,6 @@ import Perceptual from '../components/Perceptual'
 import Reasoning from '../components/Reasoning'
 import Attention from '../components/Attention'
 import Biometric from '../components/Biometric'
-import LanguageBar from '../components/LanguageBar'
 import { practiceChallenge } from '../practiceDemo'
 import { markStudyEligible } from '../sessionStorage'
 import { useT } from '../i18n/LanguageContext'
@@ -60,7 +59,6 @@ export default function Practice() {
   if (done) {
     return (
       <div className="min-h-screen flex items-center justify-center px-6">
-        <LanguageBar />
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -94,8 +92,6 @@ export default function Practice() {
 
   return (
     <div className="min-h-screen flex flex-col items-center px-6 py-8">
-      <LanguageBar />
-
       <div className="w-full max-w-4xl mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <motion.button
           type="button"
